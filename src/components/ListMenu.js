@@ -56,11 +56,11 @@ const ListMenu = () => {
                     <TableHeaderColumn isKey dataField='date' width='20%' hidden>Id</TableHeaderColumn>
                     <TableHeaderColumn dataField='date'>Date</TableHeaderColumn>
                     <TableHeaderColumn dataField='day'>Description</TableHeaderColumn>
-                    {
+                    {/* {
                         dataField.menuList.map(child => {
                             return <TableHeaderColumn>Meal Time</TableHeaderColumn>
                         })
-                    }
+                    } */}
 
                     <TableHeaderColumn dataField='mealList' dataFormat={processMealList}>Action</TableHeaderColumn>
 
