@@ -1,0 +1,9 @@
+.add-vehicle-date {
+    width: 100%;
+    min-height: 38px;
+    margin-bottom: 45px;
+}
+
+.add-vehicle-date input {
+    height: 38px;
+}
