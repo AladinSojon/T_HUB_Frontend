@@ -11,6 +11,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import MenuComponent from './components/MenuComponent';
 import ListMenu from './components/ListMenu';
+import AssignRole from './components/AssignRole';
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
             <Route path="/menu-list" component={ListMenu} />
             <Route path="/user/:id" component={UserComponent} />
             <Route path="/menu/:id" component={MenuComponent} />
+            <Route path="/assign-role-user/:id" component={AssignRole} />
             <Route path="/signup" component={Signup} />
           </Switch>
         </div>

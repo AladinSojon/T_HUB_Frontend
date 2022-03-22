@@ -32,6 +32,7 @@ const ListUser = () => {
             <div>
                 <button onClick={() => editUser(id)} className="btn btn-info">Edit</button>
                 <button style={{ marginLeft: '10px' }} onClick={() => deleteUser(id)} className="btn btn-danger">Delete</button>
+                <button style={{ marginLeft: '10px' }} onClick={() => assignRole(id)} className="btn btn-success">Assign Role</button>
             </div>
         );
     };
@@ -48,17 +49,21 @@ const ListUser = () => {
         });
     }
 
+    const assignRole = (id) => {
+        history.replace('assign-role-user/' + id);
+    }
+
     return (
         <div>
             <h2 className='text-center'>User List</h2>
             <div className='row justify-content-center'>
                 <BootstrapTable data={userList} striped hover condensed pagination={paginationFactory} filter={filterFactory}>
-                    <TableHeaderColumn isKey dataField='id' width='20%' hidden>Id</TableHeaderColumn>
-                    <TableHeaderColumn dataField='username' filterValue={textFilter}>Name</TableHeaderColumn>
-                    <TableHeaderColumn dataField='firstName'>First Name</TableHeaderColumn>
-                    <TableHeaderColumn dataField='lastName'>Last Name</TableHeaderColumn>
-                    <TableHeaderColumn dataField='email'>Email</TableHeaderColumn>
-                    <TableHeaderColumn dataField='id' dataFormat={linkFollow}>Action</TableHeaderColumn>
+                    <TableHeaderColumn isKey dataField='id' hidden>Id</TableHeaderColumn>
+                    <TableHeaderColumn dataField='username' tdStyle = {{ whiteSpace: 'normal' }} filterValue={textFilter}>Name</TableHeaderColumn>
+                    <TableHeaderColumn dataField='firstName' tdStyle = {{ whiteSpace: 'normal' }}>First Name</TableHeaderColumn>
+                    <TableHeaderColumn dataField='lastName' tdStyle = {{ whiteSpace: 'normal' }}>Last Name</TableHeaderColumn>
+                    <TableHeaderColumn dataField='email' tdStyle = {{ whiteSpace: 'normal' }}>Email</TableHeaderColumn>
+                    <TableHeaderColumn dataField='id' width='25%' dataFormat={linkFollow}>Action</TableHeaderColumn>
                 </BootstrapTable>
             </div>
         </div>

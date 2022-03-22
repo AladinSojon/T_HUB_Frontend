@@ -4,6 +4,7 @@ import MenuService from '../services/MenuService';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import { merge } from 'lodash';
 
 const ListMenu = () => {
     const access_token = localStorage.getItem('access_token');
@@ -25,45 +26,38 @@ const ListMenu = () => {
         }
     }, []);
 
-    // const linkFollow = (id, row) => {
-    //     return (
-    //         <div>
-    //             <button onClick={() => editItem(id)} className="btn btn-info">Edit</button>
-    //             <button style={{ marginLeft: '10px' }} onClick={() => deleteItem(id)} className="btn btn-danger">Delete</button>
-    //         </div>
-    //     );
-    // };
+    var thc = [];
 
-    const processMealList = (mealList, row) => {
+    var finalcolumns = [];
+    var columns = [];
+    thc.push(<TableHeaderColumn isKey dataField='date' width='20%' hidden />,
+        <TableHeaderColumn dataField='date'>Date</TableHeaderColumn>,
+        <TableHeaderColumn dataField='day'>Day</TableHeaderColumn>
+    );
+    for (let i = 0; i < menuList.length; i++) {
+        var l = Object.keys(menuList[i].mealList).length;
+        for (var j = 0; j < l; j++) {
+            columns.push(Object.keys(menuList[i].mealList)[j])
+        }
+    }
 
-        mealList.map(child => {
-            return <TableHeaderColumn>Meal Time</TableHeaderColumn>
-        })
-        // menuList.map((groups) => {
-        //     return {
-        //         children: groups.mealList.map(child => {
-        //             return console.log(child.mealTime)
-        //         }),
-        //     }
-        // })
+    finalcolumns = Array.from(new Set(columns));
+    for (let i = 0; i < finalcolumns.length; i++) {
+        thc.push(
+            <TableHeaderColumn tdStyle={{ whiteSpace: 'normal' }} thStyle = {{ whiteSpace: 'normal' }} dataField={finalcolumns[i]}>{finalcolumns[i]}</TableHeaderColumn>
+        );
+    }
+
+    for (var i = 0; i < menuList.length; i++) {
+        merge(menuList[i], menuList[i].mealList);
     }
 
     return (
         <div>
-            <h2 className='text-center'>Item List</h2>
+            <h2 className='text-center'>Menu</h2>
             <div className='row justify-content-center'>
-                <BootstrapTable data={menuList} striped hover condensed pagination={paginationFactory} filter={filterFactory}>
-                    <TableHeaderColumn isKey dataField='date' width='20%' hidden>Id</TableHeaderColumn>
-                    <TableHeaderColumn dataField='date'>Date</TableHeaderColumn>
-                    <TableHeaderColumn dataField='day'>Description</TableHeaderColumn>
-                    {/* {
-                        dataField.menuList.map(child => {
-                            return <TableHeaderColumn>Meal Time</TableHeaderColumn>
-                        })
-                    } */}
-
-                    <TableHeaderColumn dataField='mealList' dataFormat={processMealList}>Action</TableHeaderColumn>
-
+                <BootstrapTable data={menuList} striped hover condensed pagination={paginationFactory} filter={filterFactory} tableStyle={{width: '1400px'}}>
+                    {thc}
                 </BootstrapTable>
             </div>
         </div>

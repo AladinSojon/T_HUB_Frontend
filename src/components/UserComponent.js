@@ -47,7 +47,11 @@ const UserComponent = () => {
       email: data.email,
     };
 
-    UserService.addUser(user, Headers).then(history.replace("/user-list"));
+    if (id === '_add') {
+      UserService.addUser(user, headers).then(history.replace("/user-list"));
+    } else {
+      UserService.updateUser(user, id, headers).then(history.replace("/user-list"));
+    }
   };
 
   const cancel = () => {

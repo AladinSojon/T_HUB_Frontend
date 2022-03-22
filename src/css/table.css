@@ -1,0 +1,8 @@
+.div-horizontal {
+    overflow: auto;
+    white-space: nowrap;
+  }
+.table {
+overflow: auto;
+table-layout: auto !important;
+} 

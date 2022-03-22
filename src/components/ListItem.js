@@ -10,7 +10,8 @@ const ListItem = () => {
 
     const headers = {
         'X-Requested-With': 'XMLHttpRequest',
-        Authorization: `${access_token}`,
+        Authorization: `${access_token}`
+        // 'Access-Control-Allow-Credentials': true
     };
 
     const [itemList, setItemList] = useState([]);
@@ -51,9 +52,9 @@ const ListItem = () => {
             <div className='row justify-content-center'>
                 <BootstrapTable data={itemList} striped hover condensed pagination={paginationFactory} filter={filterFactory}>
                     <TableHeaderColumn isKey dataField='id' width='20%' hidden>Id</TableHeaderColumn>
-                    <TableHeaderColumn dataField='name' filterValue={textFilter}>Name</TableHeaderColumn>
+                    <TableHeaderColumn dataField='name' tdStyle = {{ whiteSpace: 'normal' }} filterValue={textFilter}>Name</TableHeaderColumn>
                     <TableHeaderColumn dataField='description' tdStyle = {{ whiteSpace: 'normal' }}>Description</TableHeaderColumn>
-                    <TableHeaderColumn dataField='id' dataFormat={linkFollow}>Action</TableHeaderColumn>
+                    <TableHeaderColumn dataField='id' tdStyle = {{ whiteSpace: 'normal' }} dataFormat={linkFollow}>Action</TableHeaderColumn>
                 </BootstrapTable>
             </div>
         </div>
