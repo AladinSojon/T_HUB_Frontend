@@ -26,6 +26,13 @@ const UserComponent = () => {
       return;
     } else {
       UserService.getUserById(id, headers).then((res) => {
+        if (res.data.access == "accessDenied" || res.data.access == "accountUnverified") {
+          history.push({
+            pathname: 'access-denied',
+            state: { detail: res.data }
+          });
+        }
+
         let user = res.data;
         setValue("username", user.username);
         setValue("firstName", user.firstName);

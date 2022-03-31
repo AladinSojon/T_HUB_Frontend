@@ -12,6 +12,8 @@ import Signup from './components/Signup';
 import MenuComponent from './components/MenuComponent';
 import ListMenu from './components/ListMenu';
 import AssignRole from './components/AssignRole';
+import AccessDenied from './components/AccessDenied';
+import MealPreference from './components/MealPreference';
 
 function App() {
 
@@ -20,7 +22,7 @@ function App() {
         <Header />
         <div className="container">
           <Switch>
-            <Route exact path="/" component={Login} />
+            <Route exact path="/" component={ListMenu} />
             <Route exact path="/login" component={Login} />
             <Route path="/item-list" component={ListItem} />
             <Route path="/item/:id" component={ItemComponent} />
@@ -30,6 +32,8 @@ function App() {
             <Route path="/menu/:id" component={MenuComponent} />
             <Route path="/assign-role-user/:id" component={AssignRole} />
             <Route path="/signup" component={Signup} />
+            <Route path="/access-denied" component={AccessDenied} />
+            <Route path="/meal-preference/:date" component={MealPreference} />
           </Switch>
         </div>
         {/* <Footer /> */}

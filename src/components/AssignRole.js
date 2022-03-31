@@ -47,15 +47,15 @@ const AssignRole = () => {
     useEffect(() => {
         async function getAssignedRoleList() {
             return MealTimeService
-            .getAssignedRoleList(id, headers)
-            .then((res) => {
-                for (let idx = 0; idx < res.data.length; idx++) {
-                    res.data[idx].label = res.data[idx].name;
-                    res.data[idx].value = res.data[idx].key;
-                }
-                setValue("roles", res.data);
-            })
-            .catch((err) => console.error('Service failure', err));
+                .getAssignedRoleList(id, headers)
+                .then((res) => {
+                    for (let idx = 0; idx < res.data.length; idx++) {
+                        res.data[idx].label = res.data[idx].name;
+                        res.data[idx].value = res.data[idx].key;
+                    }
+                    setValue("roles", res.data);
+                })
+                .catch((err) => console.error('Service failure', err));
         }
 
         getAssignedRoleList();
@@ -63,6 +63,13 @@ const AssignRole = () => {
 
     useEffect(() => {
         UserService.getUserById(id, headers).then((res) => {
+            if (res.data.access == "accessDenied" || res.data.access == "accountUnverified") {
+                history.push({
+                    pathname: 'access-denied',
+                    state: { detail: res.data }
+                });
+            }
+
             let user = res.data;
             setValue("username", user.username);
         });
@@ -75,7 +82,7 @@ const AssignRole = () => {
 
     const onSubmit = (data) => {
         const roles = [];
-        for(var i=0; i<data.roles.length; i++) {
+        for (var i = 0; i < data.roles.length; i++) {
             roles.push(data.roles[i].value);
         }
 
@@ -148,8 +155,7 @@ const AssignRole = () => {
                                 <button
                                     className="btn btn-danger"
                                     onClick={() => cancel()}
-                                    style={{ marginLeft: "10px" }}
-                                >
+                                    style={{ margin: "10px" }}>
                                     Cancel
                                 </button>
                             </form>

@@ -23,6 +23,13 @@ const CreateItem = () => {
             return;
         } else {
             ItemService.getItemById(id, headers).then((res) => {
+                if (res.data.access == "accessDenied" || res.data.access == "accountUnverified") {
+                    history.push({
+                        pathname: 'access-denied',
+                        state: { detail: res.data }
+                    });
+                }
+                
                 let item = res.data;
                 setValue("name", item.name);
                 setValue("description", item.description);

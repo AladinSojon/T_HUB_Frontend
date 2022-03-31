@@ -26,6 +26,18 @@ const ListMenu = () => {
         }
     }, []);
 
+    const linkFollow = (date, row) => {
+        return (
+            <div>
+                <button onClick={() => editMealPreference(date)} className="btn btn-info">Edit Preference</button>
+            </div>
+        );
+    };
+
+    const editMealPreference = (date) => {
+        history.push('meal-preference/' + date);
+    }
+
     var thc = [];
 
     var finalcolumns = [];
@@ -47,6 +59,8 @@ const ListMenu = () => {
             <TableHeaderColumn tdStyle={{ whiteSpace: 'normal' }} thStyle = {{ whiteSpace: 'normal' }} dataField={finalcolumns[i]}>{finalcolumns[i]}</TableHeaderColumn>
         );
     }
+
+    thc.push(<TableHeaderColumn dataField='date' width='11%' dataFormat={linkFollow}>Action</TableHeaderColumn>);
 
     for (var i = 0; i < menuList.length; i++) {
         merge(menuList[i], menuList[i].mealList);

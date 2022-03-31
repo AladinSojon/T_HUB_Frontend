@@ -18,7 +18,14 @@ const ListUser = () => {
 
     useEffect(() => {
         UserService.getUserList(headers).then((res) => {
-          setUserList(res.data)
+            if (res.data.access == "accessDenied" || res.data.access == "accountUnverified") {
+                history.push({
+                    pathname: 'access-denied',
+                    state: { detail: res.data }
+                });
+            }
+
+            setUserList(res.data);
         });
 
         if (localStorage.getItem('access_token') === null) {

@@ -17,7 +17,15 @@ const ListItem = () => {
     const [itemList, setItemList] = useState([]);
     useEffect(() => {
         ItemService.getItemList(headers).then((res) => {
-            setItemList(res.data)
+            //console.log(JSON.stringify(res));
+            if (res.data.access == "accessDenied" || res.data.access == "accountUnverified") {
+                history.push({
+                    pathname: 'access-denied',
+                    state: { detail: res.data }
+                });
+            }
+
+            setItemList(res.data);
         });
 
         if (localStorage.getItem('access_token') === null) {
