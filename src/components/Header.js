@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Container, Nav } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 
 const Header = () => {
 
-    const history = useHistory();
+    const history = createBrowserHistory({
+        forceRefresh: true
+    });
+
     const [loggedIn, setLoggedIn] = useState(false);
 
     const logout = () => {
@@ -32,9 +35,6 @@ const Header = () => {
                                 <>
                                     <Nav.Link href="/item-list">Item List</Nav.Link>
                                     <Nav.Link href="/user-list">User List</Nav.Link>
-                                    <Nav.Link href="/item/_add">Add Item</Nav.Link>
-                                    <Nav.Link href="/user/_add">Add User</Nav.Link>
-                                    <Nav.Link href="/menu/_add">Add Menu</Nav.Link>
                                     <Nav.Link href="/menu-list">Menu List</Nav.Link>
                                     <button type="button" className="btn btn-dark" onClick={() => logout()}>Logout</button>
                                 </>

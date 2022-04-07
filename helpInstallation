@@ -7,5 +7,7 @@ npm install react-hook-form
 npm i --save react-select
 npm install --save moment moment-timezone
 npm install react-datepicker --save
+npm install react-icons --save
+
 
 

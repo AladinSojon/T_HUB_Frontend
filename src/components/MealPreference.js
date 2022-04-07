@@ -4,7 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import Select from 'react-select';
 import MealPreferenceService from "../services/MealPreferenceService";
 
-const MealPreference = () => {
+const MealPreference = ({ date, handleClose }) => {
     const access_token = localStorage.getItem("access_token");
 
     const headers = {
@@ -24,7 +24,6 @@ const MealPreference = () => {
     } = useForm();
 
     const history = useHistory();
-    const { date } = useParams();
 
     useEffect(() => {
         async function getMealPreference() {
@@ -41,11 +40,9 @@ const MealPreference = () => {
         getMealPreference();
     }, []);
 
-    const cancel = () => {
-        history.push("/menu-list");
-    };
-
     const onSubmit = (data) => {
+        handleClose();
+
         const updatedPreferences = { date: date };
         for (let index = 0; index < preferences.length; index++) {
             updatedPreferences[meals[index]] = preferences[index];
@@ -64,41 +61,30 @@ const MealPreference = () => {
 
     return (
         <div>
-            <div className="container">
-                <div className="row">
-                    <div className="card col-md-6 offset-md-3 offset-md-3">
-                        <div className="card-body">
-                            <h3 className="text-center">Meal Preference</h3>
-                            <h4 className="text-center">Date: {date}</h4>
+            <div className="row">
+                <div className="card-body">
+                    <h4 className="text-center">Date: {date}</h4>
 
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                <div className="form-group">
-                                    <div className="list-container">
-                                        {meals.map((item, index) => (
-                                            <div key={index}>
-                                                <input
-                                                    type="checkbox"
-                                                    value={item}
-                                                    checked={preferences[index]}
-                                                    onChange={() => handleCheck(index)}
-                                                />
-                                                <span style={{ marginLeft: '15px' }}>{item}</span>
-                                            </div>
-                                        ))}
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className="form-group">
+                            <div className="list-container">
+                                {meals.map((item, index) => (
+                                    <div key={index}>
+                                        <input
+                                            type="checkbox"
+                                            value={item}
+                                            checked={preferences[index]}
+                                            onChange={() => handleCheck(index)}
+                                        />
+                                        <span style={{ marginLeft: '15px' }}>{item}</span>
                                     </div>
-                                </div>
-                                <button className="btn btn-success" type="submit">
-                                    Save
-                                </button>
-                                <button
-                                    className="btn btn-danger"
-                                    onClick={() => cancel()}
-                                    style={{ marginLeft: "10px" }}>
-                                    Cancel
-                                </button>
-                            </form>
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                        <button className="btn btn-success" type="submit">
+                            Save
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

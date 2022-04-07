@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 import LoginSignUpService from '../services/LoginSignUpService';
 
 const Login = () => {
 
     const [usernameOrEmail, setUsernameOrEmail] = useState('');
     const [password, setPassword] = useState('');
-    const history = useHistory();
-
+    const history = createBrowserHistory({
+        forceRefresh: true
+    });
     const changeUsernameOrEmailHandler = (event) => {
         setUsernameOrEmail(event.target.value);
     }
@@ -20,12 +21,10 @@ const Login = () => {
         e.preventDefault();
         let login = {usernameOrEmail: usernameOrEmail, password: password};
 
-        console.log("hello " + usernameOrEmail);
-
         LoginSignUpService.addLogin(login).then(response => {
             localStorage.setItem('access_token', response.headers.authorization);
             localStorage.setItem('loggedIn', true);
-            history.push('/item-list');
+            history.push('/menu-list');
         });
     }
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { createBrowserHistory } from 'history';
 import UserService from "../services/UserService";
 import { useForm } from "react-hook-form";
 
-const UserComponent = () => {
+const UserComponent = ({ id, handleClose }) => {
   const access_token = localStorage.getItem("access_token");
 
   const headers = {
@@ -18,8 +18,9 @@ const UserComponent = () => {
     formState: { errors },
   } = useForm();
 
-  const history = useHistory();
-  const { id } = useParams();
+  const history = createBrowserHistory({
+    forceRefresh: true
+  });
 
   useEffect(() => {
     if (id === "_add") {
@@ -54,6 +55,8 @@ const UserComponent = () => {
       email: data.email,
     };
 
+    handleClose();
+
     if (id === '_add') {
       UserService.addUser(user, headers).then(history.replace("/user-list"));
     } else {
@@ -61,93 +64,69 @@ const UserComponent = () => {
     }
   };
 
-  const cancel = () => {
-    history.replace("/user-list");
-  };
-
-  const getTitle = () => {
-    if (id === "_add") {
-      return <h3 className="text-center">Add User</h3>;
-    } else {
-      return <h3 className="text-center">Update User</h3>;
-    }
-  };
-
   return (
     <div>
-      <div className="container">
-        <div className="row">
-          <div className="card col-md-6 offset-md-3 offset-md-3">
-            {getTitle()}
-            <div className="card-body">
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="form-group">
-                  <label>Username</label>
-                  <input
-                    placeholder="Username"
-                    className="form-control"
-                    {...register("username", {
-                      required: "Username is Required",
-                    })}
-                  />
-                  {errors.username && (
-                    <small className="text-danger">
-                      {errors.username.message}
-                    </small>
-                  )}
-                </div>
-
-                <div className="form-group">
-                  <label>First Name</label>
-                  <input
-                    placeholder="First Name"
-                    className="form-control"
-                    {...register("firstName")}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Last Name</label>
-                  <input
-                    placeholder="Last Name"
-                    className="form-control"
-                    {...register("lastName")}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Email</label>
-                  <input
-                    placeholder="Email"
-                    className="form-control"
-                    {...register("email", {
-                      required: "Email is Required",
-                      pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: "invalid email address",
-                      },
-                    })}
-                  />
-                  {errors.email && (
-                    <small className="text-danger">
-                      {errors.email.message}
-                    </small>
-                  )}
-                </div>
-
-                <button className="btn btn-success" type="submit">
-                  Save
-                </button>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => cancel()}
-                  style={{ marginLeft: "10px" }}
-                >
-                  Cancel
-                </button>
-              </form>
+      <div className="row">
+        <div className="card-body">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="form-group">
+              <label>Username</label>
+              <input
+                placeholder="Username"
+                className="form-control"
+                {...register("username", {
+                  required: "Username is Required",
+                })}
+              />
+              {errors.username && (
+                <small className="text-danger">
+                  {errors.username.message}
+                </small>
+              )}
             </div>
-          </div>
+
+            <div className="form-group">
+              <label>First Name</label>
+              <input
+                placeholder="First Name"
+                className="form-control"
+                {...register("firstName")}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Last Name</label>
+              <input
+                placeholder="Last Name"
+                className="form-control"
+                {...register("lastName")}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Email</label>
+              <input
+                placeholder="Email"
+                className="form-control"
+                {...register("email", {
+                  required: "Email is Required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "invalid email address",
+                  },
+                })}
+              />
+              {errors.email && (
+                <small className="text-danger">
+                  {errors.email.message}
+                </small>
+              )}
+            </div>
+
+            <button className="btn btn-success" type="submit">
+              Save
+            </button>
+          </form>
         </div>
       </div>
     </div>

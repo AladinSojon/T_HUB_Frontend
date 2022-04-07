@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import ItemService from '../services/ItemService';
-import { useParams } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { createBrowserHistory } from 'history';
 
-const CreateItem = () => {
+
+const ItemComponent = ({ id, handleClose }) => {
 
     const access_token = localStorage.getItem('access_token');
 
@@ -15,8 +15,9 @@ const CreateItem = () => {
 
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
-    const history = useHistory();
-    const { id } = useParams();
+    const history = createBrowserHistory({
+        forceRefresh: true
+        });
 
     useEffect(() => {
         if (id === '_add') {
@@ -29,7 +30,7 @@ const CreateItem = () => {
                         state: { detail: res.data }
                     });
                 }
-                
+
                 let item = res.data;
                 setValue("name", item.name);
                 setValue("description", item.description);
@@ -43,6 +44,7 @@ const CreateItem = () => {
 
     const onSubmit = (data) => {
         let item = { name: data.name, description: data.description };
+        handleClose();
 
         if (id === '_add') {
             ItemService.addItem(item, headers).then(
@@ -55,48 +57,28 @@ const CreateItem = () => {
         }
     }
 
-    const cancel = () => {
-        history.replace('/item-list');
-    }
-
-    const getTitle = () => {
-        if (id === '_add') {
-            return <h3 className='text-center'>Add Item</h3>
-        } else {
-            return <h3 className='text-center'>Update Item</h3>
-        }
-    }
-
     return (
         <div>
-            <div className='container'>
-                <div className='row'>
-                    <div className='card col-md-6 offset-md-3 offset-md-3'>
-                        {
-                            getTitle()
-                        }
-                        <div className='card-body'>
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                <div className='form-group'>
-                                    <label>Name</label>
-                                    <input placeholder='Name' className='form-control' {...register("name", { required: "Item Name is Required" })} />
-                                    {errors.name && (<small className='text-danger'>{errors.name.message}</small>)}
-                                </div>
-
-                                <div className='form-group'>
-                                    <label>Description</label>
-                                    <textarea style={{ height: '200px' }} className='form-control' placeholder='Description' {...register("description")} />
-                                </div>
-
-                                <button className='btn btn-success' type='submit'>Save</button>
-                                <button className='btn btn-danger' onClick={() => cancel()} style={{ marginLeft: '10px' }}>Cancel</button>
-                            </form>
+            <div className='row'>
+                <div className='card-body'>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className='form-group'>
+                            <label>Name</label>
+                            <input placeholder='Name' className='form-control' {...register("name", { required: "Item Name is Required" })} />
+                            {errors.name && (<small className='text-danger'>{errors.name.message}</small>)}
                         </div>
-                    </div>
+
+                        <div className='form-group'>
+                            <label>Description</label>
+                            <textarea style={{ height: '200px' }} className='form-control' placeholder='Description' {...register("description")} />
+                        </div>
+
+                        <button className='btn btn-success' type='submit'>Save</button>
+                    </form>
                 </div>
             </div>
         </div>
     )
 }
 
-export default CreateItem;
+export default ItemComponent;
