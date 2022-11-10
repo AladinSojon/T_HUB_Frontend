@@ -1,0 +1,13 @@
+npm install axios --save
+npm install react-router-dom
+npm install react-bootstrap-table --save --legacy-peer-deps
+npm install react-bootstrap-table2-paginator --save --legacy-peer-deps
+npm install react-bootstrap-table2-filter --save --legacy-peer-deps
+npm install react-hook-form
+npm i --save react-select
+npm install --save moment moment-timezone
+npm install react-datepicker --save
+npm install react-icons --save
+
+
+
